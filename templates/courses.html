@@ -1,0 +1,10 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Courses{% endblock %}
+
+{% block content %}
+<h1>Courses Page</h1>
+<p>Explore the available courses and manage your enrollments here.</p>
+<a href="{% url 'profile' %}" class="logout-btn">Back to Profile</a>
+<a href="{% url 'enrollments' %}" class="logout-btn">View Enrollments</a>
+{% endblock %}
