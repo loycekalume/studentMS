@@ -22,7 +22,7 @@ from main import views
 urlpatterns = [
     path('', views.home_view, name='home'),  # This maps the 'home' URL pattern
     path('login/', views.login_view, name='login'),
-    path('register/', views.register_view, name='register'),
+    path('register/', views.register, name='register'),
     path('profile/', views.profile_view, name='profile'),
     path('enrollments/', views.enrollments_view, name='enrollments'),  # Enrollments URL
     path('courses/', views.courses_view, name='courses'),  # Courses URL

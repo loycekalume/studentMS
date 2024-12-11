@@ -1,35 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .register-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; background: linear-gradient(45deg, #6a11cb, #2575fc); color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
-
-    <div style="background-color: white; color: #333; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); width: 350px; text-align: center;">
-        <h2 style="margin-bottom: 20px; font-size: 24px;">Login</h2>
-        <form method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="POST">
             {% csrf_token %}
-            <label for="username" style="font-weight: bold; text-align: left;">Username</label>
-            <input type="text" name="username" id="username" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required>
 
-            <label for="password" style="font-weight: bold; text-align: left;">Password</label>
-            <input type="password" name="password" id="password" required style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
 
-            <button type="submit" style="padding: 10px 15px; background: linear-gradient(45deg, #6a11cb, #2575fc); color: white; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s ease;">
-                Login
-            </button>
+            <button type="submit">Login</button>
         </form>
-        <p style="margin-top: 20px;">Don't have an account? <a href="{% url 'register' %}" style="color: #6a11cb; text-decoration: none;">Register here</a></p>
-    </div>
 
-    <script>
-        const button = document.querySelector('button');
-        button.addEventListener('mouseover', () => {
-            button.style.transform = 'scale(1.05)';
-        });
-        button.addEventListener('mouseout', () => {
-            button.style.transform = 'scale(1)';
-        });
-    </script>
+        <div class="register-link">
+            <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+        </div>
+
+        {% if messages %}
+            <div class="message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>
