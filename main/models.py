@@ -34,7 +34,7 @@ class StudentManager(BaseUserManager):
         return self.create_user(username, email, password, **extra_fields)
 
 class Student(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=255, unique=True)
+    username = models.CharField(max_length=190, unique=True)
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -51,3 +51,21 @@ class Student(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+
+from django.db import models
+
+
+class Course(models.Model):
+    name = models.CharField(max_length=190)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(default='2040-01-01')
+    instructor = models.CharField(max_length=190)
+
+    class Meta:
+        db_table = 'course'
+
+    def __str__(self):
+        return self.name
+
+

@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
-from main.models import Student
+from main.models import Student, Course
 
 # forms.py
 
@@ -35,3 +35,9 @@ class StudentRegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['name', 'instructor','start_date','end_date']

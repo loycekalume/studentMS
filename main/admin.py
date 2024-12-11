@@ -4,7 +4,7 @@ from django.contrib import admin
 # admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Student
+from .models import Student, Course
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -53,3 +53,4 @@ class StudentAdmin(UserAdmin):
         super().save_model(request, obj, form, change)
 
 admin.site.register(Student, StudentAdmin)
+admin.site.register(Course)

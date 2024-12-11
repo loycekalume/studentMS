@@ -55,6 +55,26 @@ def enrollments_view(request):
     return render(request, 'enrollments.html')
 
 # Courses View
-def courses_view(request):
-    # Logic for handling courses
-    return render(request, 'courses.html')
+
+
+
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import Course
+from .forms import CourseForm
+
+# View to list all courses
+def course(request):
+    courses = Course.objects.all()
+    return render(request, 'courses.html', {'courses': courses})
+
+# View to create a new course
+def create_course(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('courses')  # Redirect to the course list after successful creation
+    else:
+        form = CourseForm()
+    return render(request, 'create_course.html', {'form': form})

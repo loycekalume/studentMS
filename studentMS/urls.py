@@ -25,7 +25,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('profile/', views.profile_view, name='profile'),
     path('enrollments/', views.enrollments_view, name='enrollments'),  # Enrollments URL
-    path('courses/', views.courses_view, name='courses'),  # Courses URL
     path('logout/', views.logout_view, name='logout'),
+path('courses/', views.course, name='courses'),
+    path('courses/create/', views.create_course, name='create_course'),
     path('admin/', admin.site.urls),
 ]
