@@ -1,10 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.shortcuts import render, redirect, get_object_or_404
 
-from main.forms import  StudentRegistrationForm
-from main.models import Student
+from main.forms import StudentRegistrationForm, EnrollmentForm, ProfileForm
+from main.models import Student, Enrollment, Profile
 
 
 # Create your views here.
@@ -46,9 +49,9 @@ def logout_view(request):
     logout(request)  # Logout the user
     return redirect('login')  # Redirect to the login page after logout
 
-def profile_view(request):
+# def profile_view(request):
     # Your logic here
-    return render(request, 'profile.html')
+    # return render(request, 'profile.html')
 
 def enrollments_view(request):
     # Logic for handling enrollments
@@ -78,3 +81,56 @@ def create_course(request):
     else:
         form = CourseForm()
     return render(request, 'create_course.html', {'form': form})
+
+def enrollments_list(request):
+    enrollments = Enrollment.objects.select_related('student', 'course').all()
+    return render(request, 'enrollments.html', {'enrollments': enrollments})
+
+def create_enrollment(request):
+    if request.method == 'POST':
+        form = EnrollmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('enrollments')
+    else:
+        form = EnrollmentForm()
+    return render(request, 'enrollment_create.html', {'form': form})
+
+def delete_enrollment(request, pk):
+    enrollment = get_object_or_404(Enrollment, pk=pk)
+    enrollment.delete()
+    return redirect('enrollments')
+
+def enroll_student(request):
+    if request.method == 'POST':
+        form = EnrollmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('enrollments')  # Redirect to a list page after enrollment
+    else:
+        form = EnrollmentForm()
+
+    return render(request, 'enrollment_form.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    profile = request.user.profile  # Access the logged-in user's profile
+    enrollments = Enrollment.objects.filter(student=request.user)  # Get enrolled courses
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+
+    context = {
+        'form': form,
+        'profile': profile,
+        'enrollments': enrollments,
+    }
+    return render(request, 'profile.html', context)
+
+

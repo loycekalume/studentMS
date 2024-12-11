@@ -1,10 +1,30 @@
 {% extends 'base_generic.html' %}
 
-{% block title %}Profile{% endblock %}
-
 {% block content %}
-<h1>Profile Page</h1>
-<p>Manage your profile information here.</p>
-<a href="{% url 'enrollments' %}" class="logout-btn">View Enrollments</a>
-<a href="{% url 'courses' %}" class="logout-btn">View Courses</a>
+<h1>Your Profile</h1>
+<div class="card shadow-sm p-4 mb-4">
+    <h3>Profile Information</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
+    </form>
+</div>
+
+<div class="card shadow-sm p-4">
+    <h3>Enrolled Courses</h3>
+    {% if enrollments %}
+        <ul class="list-group">
+            {% for enrollment in enrollments %}
+            <li class="list-group-item">
+                <strong>{{ enrollment.course.name }}</strong>
+                <span class="text-muted">Enrolled on {{ enrollment.enrollment_date }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You are not enrolled in any courses.</p>
+    {% endif %}
+</div>
 {% endblock %}
+

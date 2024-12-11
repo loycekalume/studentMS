@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
-from main.models import Student, Course
+from main.models import Student, Course, Enrollment, Profile
 
 # forms.py
 
@@ -41,3 +41,18 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['name', 'instructor','start_date','end_date']
+
+
+
+class EnrollmentForm(forms.ModelForm):
+    class Meta:
+        model = Enrollment
+        fields = ['student', 'course']  # Include student and course fields
+
+    student = forms.ModelChoiceField(queryset=Student.objects.all(), required=True, label="Select Student")
+    course = forms.ModelChoiceField(queryset=Course.objects.all(), required=True, label="Select Course")
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_picture', 'bio']

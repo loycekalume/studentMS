@@ -18,15 +18,19 @@ from django.contrib import admin
 from django.urls import path
 
 from main import views
+from main.views import enroll_student
 
 urlpatterns = [
     path('', views.home_view, name='home'),  # This maps the 'home' URL pattern
     path('login/', views.login_view, name='login'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile_view, name='profile'),
-    path('enrollments/', views.enrollments_view, name='enrollments'),  # Enrollments URL
+    path('enrollments/', views.enrollments_list, name='enrollments'),
+    path('enrollments/create/', views.create_enrollment, name='create_enrollment'),
+    path('enrollments/delete/<int:pk>/', views.delete_enrollment, name='delete_enrollment'),  # Enrollments URL
     path('logout/', views.logout_view, name='logout'),
 path('courses/', views.course, name='courses'),
     path('courses/create/', views.create_course, name='create_course'),
+path('enroll/', enroll_student, name='enroll_student'),
     path('admin/', admin.site.urls),
 ]

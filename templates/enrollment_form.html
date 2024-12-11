@@ -1,0 +1,26 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h1 class="mb-4 text-center text-primary">Enroll in a Course</h1>
+
+<div class="card shadow-sm">
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            {{ form.student.label_tag }} 
+            {{ form.student }}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.course.label_tag }}
+            {{ form.course }}
+        </div>
+
+        <div class="mt-3 text-center">
+            <button type="submit" class="btn btn-success">Enroll</button>
+            <a href="{% url 'enrollments' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

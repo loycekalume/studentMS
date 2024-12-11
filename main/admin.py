@@ -4,7 +4,7 @@ from django.contrib import admin
 # admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Student, Course
+from .models import Student, Course, Enrollment
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -51,6 +51,11 @@ class StudentAdmin(UserAdmin):
         if not obj.date_joined:
             obj.date_joined = timezone.now()  # Set date_joined to current time if not set
         super().save_model(request, obj, form, change)
+
+@admin.register(Enrollment)
+class EnrollmentAdmin(admin.ModelAdmin):
+    list_display = ('student', 'course', 'enrollment_date')
+    list_filter = ( 'student','enrollment_date')
 
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Course)
